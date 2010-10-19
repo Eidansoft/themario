@@ -9,6 +9,16 @@
     <?php include_javascripts() ?>
   </head>
   <body>
-    <?php echo $sf_content ?>
+    <div id="menu">
+        <div class="titulo">Men&uacute;</div>
+        <?php include_slot('menu') ?>
+    </div>
+    
+    <div id="pagina">
+        <div id="barraNavegacion"><?php //include_slot('barraNavegacion') ?></div>
+        <div id="contenido"></div>
+            <?php echo $sf_content ?>
+        </div>
+    </div>
   </body>
 </html>
