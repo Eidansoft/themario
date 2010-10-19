@@ -5,6 +5,8 @@ all:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn:      mysql:host=localhost;dbname=themario
-      username: root
-      password: 
+      dsn: 'mysql:host=localhost;dbname=crmStudium'
+      username: alex
+      password: eidan
+
+

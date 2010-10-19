@@ -1,17 +1,148 @@
-# # Populate this file with data to be loaded by your ORM's *:data-load task.
-# # You can create multiple files in this directory (i.e. 010_users.yml,
-# # 020_articles.yml, etc) which will be loaded in alphabetical order.
-# # 
-# # See documentation for your ORM's *:data-load task for more information.
-# 
-# User:
-#   fabien:
-#     username: fabien
-#     password: changeme
-#     name:     Fabien Potencier
-#     email:    fabien.potencier@symfony-project.com
-#   kris:
-#     username: Kris.Wallsmith
-#     password: changeme
-#     name:     Kris Wallsmith
-#     email:    kris.wallsmith@symfony-project.com
+curso:
+  ple_fp:
+    nombre: Programación en lenguajes estructurados / Fundamentos de programación
+  dfsi_lm:
+    nombre: Diseño de funciones en el sistema informático / Lenguajes de marcas
+
+tema:
+  introduccion_ple_fp:
+    Curso: ple_fp
+    nombre: Metodología de la programación
+  estructuras_ple_fp:
+    Curso: ple_fp
+    nombre: Estructuras de datos
+  programacion_ple_fp:
+    Curso: ple_fp
+    nombre: Programación en lenguajes de tercera generación
+  introduccion_dfsi_lm:
+    Curso: dfsi_lm
+    nombre: Introduccion a la manufacturacion
+
+contenido:
+  metodologia1:
+    Tema: introduccion_ple_fp
+    titulo: Pasos para la resolución de un problema
+    orden: 1
+  metodologia2:
+    Tema: introduccion_ple_fp
+    titulo: Datos: tipos y características
+    orden: 2
+  metodologia3:
+    Tema: introduccion_ple_fp
+    titulo: Operadores, expresiones e instrucciones
+    orden: 3
+  metodologia4:
+    Tema: introduccion_ple_fp
+    titulo: Algoritmos: representación, instrucciones y estructuras básicas
+    orden: 4
+  metodologia5:
+    Tema: introduccion_ple_fp
+    titulo: Programación estructurada
+    orden: 5
+  metodologia6:
+    Tema: introduccion_ple_fp
+    titulo: Programación modular
+    orden: 6
+  metodologia7:
+    Tema: introduccion_ple_fp
+    titulo: Recursividad
+    orden: 7
+  metodologia8:
+    Tema: introduccion_ple_fp
+    titulo: Utilización del lenguaje C en los elementos de la metodología de programación
+    orden: 8
+  cuestionarioMetodologia:
+    Tema: introduccion_ple_fp
+    titulo: Cuestionario
+    orden: 9
+  estructuras1:
+    Tema: estructuras_ple_fp
+    titulo: Estructuras estáticas de datos: tablas, cadenas de caracteres y ficheros
+    orden: 1
+  estructuras2:
+    Tema: estructuras_ple_fp
+    titulo: Estructuras dinámicas de datos: punteros, listas, colas, pilas, árboles y grafos
+    orden: 2
+  estructuras3:
+    Tema: estructuras_ple_fp
+    titulo: Utilización del lenguaje C en los elementos de las estructuras de datos
+    orden: 3
+  cuestionarioEstructuras:
+    Tema: estructuras_ple_fp
+    titulo: Cuestionario
+    orden: 4
+  programacion1:
+    Tema: programacion_ple_fp
+    titulo: Utilización de ficheros en un lenguaje de tercera generación
+    orden: 1
+  programacion2:
+    Tema: programacion_ple_fp
+    titulo: Desarrollo de programas: codificación, compilación, enlace, depueración y pruebas
+    orden: 2
+  programacion3:
+    Tema: programacion_ple_fp
+    titulo: Documentación de programas: descripción de estructuras, algoritmos, fuentes e instalación
+    orden: 3
+  programacion4:
+    Tema: programacion_ple_fp
+    titulo: Utilidades para el desarrollo y prueba de programas no incluidos en el entorno integrado
+    orden: 4
+  cuestionarioProgramacion:
+    Tema: programacion_ple_fp
+    titulo: Cuestionario
+    orden: 5
+texto:
+  textoMetodologia1:
+    Contenido: metodologia1
+    texto: |
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+      enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in.
+ 
+      Voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa
+      qui officia deserunt mollit anim id est laborum.
+  textoMetodologia2:
+    Contenido: metodologia2
+    texto: |
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+      enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in.
+ 
+      Voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa
+      qui officia deserunt mollit anim id est laborum.
+
+cuestionario:
+  cuestionarioMetodologia:
+    Contenido: cuestionarioMetodologia
+  cuestionarioEstructura:
+    Contenido: cuestionarioEstructuras
+
+cuestion:
+  cuestion1:
+    pregunta: ¿Porqué te has metido a estudiar informática?
+    Cuestionario: cuestionarioMetodologia
+  cuestion2:
+    pregunta: ¿Creés que una estructura de Pila LIFO es de tipo...?
+    Cuestionario: cuestionarioMetodologia
+
+respuestaCorta:
+  respuestaCorta1: 
+    texto: Motivos aquí ...
+    Cuestion: cuestion1
+
+respuestaAlternativa:
+  respuestaAlternativa1: 
+    texto: Estática
+    Cuestion: cuestion2
+  respuestaAlternativa2: 
+    texto: Dinámica
+    Cuestion: cuestion2
+
+
+
