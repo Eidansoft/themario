@@ -1,0 +1,258 @@
+Contenido:
+  connection: doctrine
+  tableName: contenido
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    titulo:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    tema_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    orden:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Tema:
+      class: Tema
+      local: tema_id
+      foreign: id
+      type: one
+    Cuestionario:
+      class: Cuestionario
+      local: id
+      foreign: contenido_id
+      type: many
+    Texto:
+      class: Texto
+      local: id
+      foreign: contenido_id
+      type: many
+Cuestion:
+  connection: doctrine
+  tableName: cuestion
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    pregunta:
+      type: string()
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    cuestionario_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Cuestionario:
+      class: Cuestionario
+      local: cuestionario_id
+      foreign: id
+      type: one
+    RespuestaAlternativa:
+      class: RespuestaAlternativa
+      local: id
+      foreign: cuestion_id
+      type: many
+    RespuestaCorta:
+      class: RespuestaCorta
+      local: id
+      foreign: cuestion_id
+      type: many
+Cuestionario:
+  connection: doctrine
+  tableName: cuestionario
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    contenido_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Contenido:
+      class: Contenido
+      local: contenido_id
+      foreign: id
+      type: one
+Curso:
+  connection: doctrine
+  tableName: curso
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    nombre:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Tema:
+      class: Tema
+      local: id
+      foreign: tema_id
+      type: many
+RespuestaAlternativa:
+  connection: doctrine
+  tableName: respuestaAlternativa
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    cuestion_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    texto:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Cuestion:
+      class: Cuestion
+      local: cuestion_id
+      foreign: id
+      type: one
+RespuestaCorta:
+  connection: doctrine
+  tableName: respuestaCorta
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    cuestion_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    texto:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    Cuestion:
+      class: Cuestion
+      local: cuestion_id
+      foreign: id
+      type: one
+Tema:
+  connection: doctrine
+  tableName: tema
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    nombre:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    curso_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Curso:
+      class: Curso
+      local: curso_id
+      foreign: id
+      type: one
+    Contenido:
+      class: Contenido
+      local: id
+      foreign: tema_id
+      type: many
+Texto:
+  connection: doctrine
+  tableName: texto
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    texto:
+      type: string()
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    contenido_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Contenido:
+      class: Contenido
+      local: contenido_id
+      foreign: id
+      type: one
