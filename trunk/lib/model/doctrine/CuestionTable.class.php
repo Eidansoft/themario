@@ -16,4 +16,27 @@ class CuestionTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Cuestion');
     }
+    
+    public function getTipoCuestion($cuestion_id)
+    {
+        //consulto todas las tablas de mi esquema denominadas "respuesta....."
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        // disable constraint checking for mysql when innodb tables are used
+        $pdo->exec('SET foreign_key_checks = 0');
+        // get all tables
+        $sql = "SELECT table_name
+                FROM information_schema.tables
+                WHERE table_schema = (SELECT schema() FROM DUAL) and
+                      table_name LIKE 'respuesta%'";
+        $tablasRespuesta = $pdo->query($sql);
+     
+        foreach ($tablasRespuesta as $tabla){
+            $encontrado = Doctrine_Core::getTable($tabla['table_name'])->createQuery('j')->where('cuestion_id = ?', $cuestion_id)->count();
+            if ($encontrado > 0){
+                return $tabla['table_name'];
+            }
+        }
+        //si llego a este punto, significa que no se ha encontrado ninguna respuesta a la cuestion, asi que lanzo excepcion
+        throw new sfException('Question with id('.$cuestion_id.') not found. May be need create.');
+    }
 }
