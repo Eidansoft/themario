@@ -23,7 +23,7 @@ Doctrine_Manager::getInstance()->bindComponent('Texto', 'doctrine');
  * 
  * @package    themario
  * @subpackage model
- * @author     Your name here
+ * @author     Alejandro Lorente. eidansoft ARROBA gmail PUNTO com
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 abstract class BaseTexto extends sfDoctrineRecord

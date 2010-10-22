@@ -46,31 +46,54 @@ class themarioActions extends sfActions
         return $contenidos;
     }
     
-    public function executeContenido(sfWebRequest $request)
+    private function cargaListasDeContenido($contenido_id)
     {
         //Cargo las listas que crean el arbol de navegacion del menu
-        $tema_id = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $request->getParameter('id'))->fetchOne()->{'tema_id'};
+        $tema_id = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $contenido_id)->fetchOne()->{'tema_id'};
         $query = Doctrine_Core::getTable('Tema')->createQuery('j')->where('id = ?', $tema_id);
         $curso_id = $query->fetchOne()->{'curso_id'};
         
         $this->cursos = $this->listaCursos($curso_id);
         $this->temas = $this->listaTemas($curso_id, $tema_id);
         $this->contenidos = $this->listaContenidos($tema_id);
+    }
+    
+    private function eligeTipoCuestion($cuestion_id, $pregunta)
+    {
+        try {
+            $tablaRespuesta = Doctrine_Core::getTable('Cuestion')->getTipoCuestion($cuestion_id);
+            $respuestaCuestion = Doctrine_Core::getTable($tablaRespuesta)->createQuery('j3')->where('cuestion_id = ?', $cuestion_id)->execute();
+            $respuestas = array(    'tipo'       => $tablaRespuesta,
+                                    'pregunta'   => $pregunta,
+                                    'respuestas' => $respuestaCuestion,
+                                    'cuestion'   => $cuestion_id
+                               );
+            return $respuestas;
+        } catch (sfException $e) {
+            return NULL;
+        }
+        
+        
+        
+    }
+    
+    public function executeContenido(sfWebRequest $request)
+    {   
+        //cargo las listas
+        $this->cargaListasDeContenido($request->getParameter('id'));
         
         //Decido si el contenido seleccionado es de tipo texto o de tipo cuestionario
         $cuestionario = Doctrine_Core::getTable('Cuestionario')->createQuery('j')->where('contenido_id = ?', $request->getParameter('id'))->count();
         if ($cuestionario > 0)
         {
-            //$this->logMessage('#DiferenciaContenidos: Es un cuestionario', 'debug');
             $cuestionario = Doctrine_Core::getTable('Cuestionario')->createQuery('j3')->where('contenido_id = ?', $request->getParameter('id'));
-            $this->redirect('cuestionario/mostrarCuestionario?id='.$cuestionario->fetchOne()->{'id'});
+            $this->redirect('themario/mostrarCuestionario?id='.$cuestionario->fetchOne()->{'id'});
         }
         $texto = Doctrine_Core::getTable('Texto')->createQuery('j2')->where('contenido_id = ?', $request->getParameter('id'))->count();
         if ($texto > 0)
         {
-            //$this->logMessage('#DiferenciaContenidos: Es un texto', 'debug');
             $texto = Doctrine_Core::getTable('Texto')->createQuery('j4')->where('contenido_id = ?', $request->getParameter('id'));
-            $this->redirect('texto/mostrarTexto?id='.$texto->fetchOne()->{'id'});
+            $this->redirect('themario/mostrarTexto?id='.$texto->fetchOne()->{'id'});
         }
         //Si no ha entrado en los if's anteriores es porque no esta aun definido el tipo del contenido
         //asique muestro el titulo definido y un comentario
@@ -82,6 +105,44 @@ class themarioActions extends sfActions
         
     }
 
+    public function executeMostrarCuestionario(sfWebRequest $request)
+    {
+        $query = Doctrine_Core::getTable('Cuestionario')->createQuery('j')->where('id = ?', $request->getParameter('id'));
+        //cargo las listas
+        $this->cargaListasDeContenido($query->fetchOne()->{'contenido_id'});
+        
+        //Titulo y cuestionario
+        $query2 = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $query->fetchOne()->{'contenido_id'});
+        $this->titulo = $query2->fetchOne()->{'titulo'};
+        $this->cuestionario_id = $request->getParameter('id');
+        //el cuestionario sera un array con la pregunta, el tipo y el objeto respuesta del tipo que corresponda
+        $this->cuestiones = array();
+        $tablaCuestion = Doctrine_Core::getTable('Cuestion')->createQuery('j')->where('cuestionario_id = ?', $request->getParameter('id'))->execute();
+        foreach ($tablaCuestion as $cuestion)
+        {
+            $respuesta = $this->eligeTipoCuestion($cuestion['id'], $cuestion['pregunta']);
+            if ($respuesta != null)
+            {
+                $this->cuestiones[] = $respuesta;
+            }
+        }
+    }
+
+    public function executeMostrarTexto(sfWebRequest $request)
+    {
+        $query = Doctrine_Core::getTable('Texto')->createQuery('j')->where('id = ?', $request->getParameter('id'));
+        //cargo las listas
+        $this->cargaListasDeContenido($query->fetchOne()->{'contenido_id'});
+        
+        //Titulo y comentario que se mostrara
+        
+        $query2 = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $query->fetchOne()->{'contenido_id'});
+        $this->titulo = $query2->fetchOne()->{'titulo'};
+        $this->comentario = $query->fetchOne()->{'texto'};
+        
+        $this->setTemplate('index');
+    }
+    
     public function executeTema(sfWebRequest $request)
     {
         $query = Doctrine_Core::getTable('Tema')->createQuery('j')->where('id = ?', $request->getParameter('id'));
@@ -118,18 +179,30 @@ class themarioActions extends sfActions
         $this->comentario = "Selecciona el curso que quieres trabajar...";
         $this->cursos = $this->listaCursos();
     }
-
+    
+    public function executeSolucionCuestionario(sfWebRequest $request)
+    {
+        /*$cuestiones = Doctrine_Core::getTable('Cuestion')->createQuery('j')->where('cuestionario_id = ?', $request->getParameter('id'))->execute();
+        foreach ($cuestiones as $cuestion){
+            $tablaRespuesta = Doctrine_Core::getTable('Cuestion')->getTipoCuestion($cuestion->getId());
+            include_once $tablaRespuesta.'.class.php';
+            list($key, $value) = each($_POST);
+        }*/
+    }
+/*
   public function executeShow(sfWebRequest $request)
   {
     $this->curso = Doctrine_Core::getTable('Curso')->find(array($request->getParameter('id')));
     $this->forward404Unless($this->curso);
   }
-
+*/
   public function executeNew(sfWebRequest $request)
   {
-    $this->form = new CursoForm();
-  }
+    $this->form = new CuestionarioRespuestaCortaForm();
+    $this->form = new CuestionarioRespuestaAlternativaForm(2, $this->form);
 
+  }
+/*
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
@@ -178,4 +251,5 @@ class themarioActions extends sfActions
       $this->redirect('themario/edit?id='.$curso->getId());
     }
   }
+  */
 }

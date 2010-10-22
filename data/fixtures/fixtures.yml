@@ -95,7 +95,7 @@ texto:
   textoMetodologia1:
     Contenido: metodologia1
     texto: |
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      Lorem <a href="http://www.google.com">ipsum</a> dolor sit amet, consectetur adipisicing elit, sed do
       eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
       enim ad minim veniam, quis nostrud exercitation ullamco laboris
       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
@@ -107,9 +107,9 @@ texto:
   textoMetodologia2:
     Contenido: metodologia2
     texto: |
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      Lorem ipsum dolor sit amet, <a href="www.google.com">consectetur adipisicing</a> elit, sed do
       eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-      enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      enim ad minim veniam, quis<br/><br/> <object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/kqGSqT6Sx_g?fs=1&amp;hl=es_ES"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/kqGSqT6Sx_g?fs=1&amp;hl=es_ES" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object><br/> <br/> nostrud exercitation ullamco laboris
       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
       in reprehenderit in.
  
@@ -125,10 +125,10 @@ cuestionario:
 
 cuestion:
   cuestion1:
-    pregunta: ¿Porqué te has metido a estudiar informática?
+    pregunta: ¿Porqué te has <a href="www.google.com">metido</a> a estudiar informática?
     Cuestionario: cuestionarioMetodologia
   cuestion2:
-    pregunta: ¿Creés que una estructura de Pila LIFO es de tipo...?
+    pregunta: ¿Creés que una <a href="www.google.com">estructura</a> de Pila LIFO es de tipo...?
     Cuestionario: cuestionarioMetodologia
 
 respuestaCorta:

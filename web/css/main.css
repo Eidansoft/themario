@@ -1,0 +1,14 @@
+#menu{
+    float: left;
+    width: 25%;
+}
+
+#pagina{
+    border: 1px;
+    padding: 10px;
+    width: 73%;
+    min-height: 500px;
+    float: left;
+}
+
+
