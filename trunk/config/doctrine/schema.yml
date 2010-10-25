@@ -35,13 +35,13 @@ Contenido:
       local: tema_id
       foreign: id
       type: one
-    Cuestionario:
-      class: Cuestionario
+    ContenidoTipoCuestionario:
+      class: ContenidoTipoCuestionario
       local: id
       foreign: contenido_id
       type: many
-    Texto:
-      class: Texto
+    ContenidoTipoTexto:
+      class: ContenidoTipoTexto
       local: id
       foreign: contenido_id
       type: many
@@ -70,8 +70,8 @@ Cuestion:
       notnull: true
       autoincrement: false
   relations:
-    Cuestionario:
-      class: Cuestionario
+    ContenidoTipoCuestionario:
+      class: ContenidoTipoCuestionario
       local: cuestionario_id
       foreign: id
       type: one
@@ -85,9 +85,9 @@ Cuestion:
       local: id
       foreign: cuestion_id
       type: many
-Cuestionario:
+ContenidoTipoCuestionario:
   connection: doctrine
-  tableName: cuestionario
+  tableName: contenidoTipoCuestionario
   columns:
     id:
       type: integer(4)
@@ -226,9 +226,9 @@ Tema:
       local: id
       foreign: tema_id
       type: many
-Texto:
+ContenidoTipoTexto:
   connection: doctrine
-  tableName: texto
+  tableName: contenidoTipoTexto
   columns:
     id:
       type: integer(4)

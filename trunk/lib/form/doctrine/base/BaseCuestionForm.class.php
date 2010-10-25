@@ -17,13 +17,13 @@ abstract class BaseCuestionForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'              => new sfWidgetFormInputHidden(),
       'pregunta'        => new sfWidgetFormTextarea(),
-      'cuestionario_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestionario'), 'add_empty' => false)),
+      'cuestionario_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('ContenidoTipoCuestionario'), 'add_empty' => false)),
     ));
 
     $this->setValidators(array(
       'id'              => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'pregunta'        => new sfValidatorString(array('required' => false)),
-      'cuestionario_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestionario'))),
+      'cuestionario_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('ContenidoTipoCuestionario'))),
     ));
 
     $this->widgetSchema->setNameFormat('cuestion[%s]');
