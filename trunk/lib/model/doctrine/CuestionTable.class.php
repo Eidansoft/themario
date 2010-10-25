@@ -32,7 +32,7 @@ class CuestionTable extends Doctrine_Table
         $sql = "SELECT table_name
                 FROM information_schema.tables
                 WHERE table_schema = (SELECT schema() FROM DUAL) and
-                      table_name LIKE 'respuesta%'";
+                      UPPER(table_name) LIKE UPPER('tipoPregunta%')";
         $tablasRespuesta = $pdo->query($sql);
      
         foreach ($tablasRespuesta as $tabla){

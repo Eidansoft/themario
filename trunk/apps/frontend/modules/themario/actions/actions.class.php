@@ -88,7 +88,7 @@ class themarioActions extends sfActions
             //asique muestro el titulo definido y un comentario
             $query = Doctrine_Core::getTable('Contenido')->createQuery('j5')->where('id = ?', $request->getParameter('id'));
             $this->titulo = $query->fetchOne()->{'titulo'};
-            $this->comentario = "Este contenido a&uacute;n no est&aacute; definido. Disculpa las molestias.";
+            $this->comentario = sfConfig::get('app_frontend_msgContenidoNoDefinido');
             $this->setTemplate('index');
         }
     }
@@ -142,7 +142,7 @@ class themarioActions extends sfActions
         
         //Titulo y comentario que se mostrara
         $this->titulo = $tema->getNombre();
-        $this->comentario = "Selecciona el contenido del tema que quieres trabajar...";
+        $this->comentario = sfConfig::get('app_frontend_msgSelecionaContenido');
         
         $this->setTemplate('index');
     }
@@ -155,15 +155,15 @@ class themarioActions extends sfActions
         //Titulo y comentario que se mostrara
         $curso = Doctrine_Core::getTable('Curso')->find($request->getParameter('id'));
         $this->titulo = $curso->getNombre();
-        $this->comentario = "Selecciona el tema del curso que quieres trabajar...";
+        $this->comentario = sfConfig::get('app_frontend_msgSelecionaTema');
         
         $this->setTemplate('index');
     }
     
     public function executeIndex(sfWebRequest $request)
     {
-        $this->titulo = "Themario";
-        $this->comentario = "Selecciona el curso que quieres trabajar...";
+        $this->titulo = sfConfig::get('app_frontend_tituloApp');
+        $this->comentario = sfConfig::get('app_frontend_msgSeleccionaCurso');;
         $this->cursos = $this->listaCursos();
     }
     
