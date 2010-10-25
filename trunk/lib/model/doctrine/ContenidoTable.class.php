@@ -42,7 +42,7 @@ class ContenidoTable extends Doctrine_Table
             }
         }
         //si llego a este punto, significa que no se ha encontrado ningun contenido del tipo buscado, asi que lanzo excepcion
-        throw new sfException('Content with id('.$cuestion_id.') not found. May be need create.');
+        throw new sfException('Content with id('.$contenido_id.') not found. May be need create.');
     }
 }
 
