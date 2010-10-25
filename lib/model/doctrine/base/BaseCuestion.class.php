@@ -11,21 +11,21 @@ Doctrine_Manager::getInstance()->bindComponent('Cuestion', 'doctrine');
  * @property string $pregunta
  * @property integer $cuestionario_id
  * @property ContenidoTipoCuestionario $ContenidoTipoCuestionario
- * @property Doctrine_Collection $RespuestaAlternativa
- * @property Doctrine_Collection $RespuestaCorta
+ * @property Doctrine_Collection $TipoPreguntaAlternativa
+ * @property Doctrine_Collection $TipoPreguntaCorta
  * 
  * @method integer                   getId()                        Returns the current record's "id" value
  * @method string                    getPregunta()                  Returns the current record's "pregunta" value
  * @method integer                   getCuestionarioId()            Returns the current record's "cuestionario_id" value
  * @method ContenidoTipoCuestionario getContenidoTipoCuestionario() Returns the current record's "ContenidoTipoCuestionario" value
- * @method Doctrine_Collection       getRespuestaAlternativa()      Returns the current record's "RespuestaAlternativa" collection
- * @method Doctrine_Collection       getRespuestaCorta()            Returns the current record's "RespuestaCorta" collection
+ * @method Doctrine_Collection       getTipoPreguntaAlternativa()   Returns the current record's "TipoPreguntaAlternativa" collection
+ * @method Doctrine_Collection       getTipoPreguntaCorta()         Returns the current record's "TipoPreguntaCorta" collection
  * @method Cuestion                  setId()                        Sets the current record's "id" value
  * @method Cuestion                  setPregunta()                  Sets the current record's "pregunta" value
  * @method Cuestion                  setCuestionarioId()            Sets the current record's "cuestionario_id" value
  * @method Cuestion                  setContenidoTipoCuestionario() Sets the current record's "ContenidoTipoCuestionario" value
- * @method Cuestion                  setRespuestaAlternativa()      Sets the current record's "RespuestaAlternativa" collection
- * @method Cuestion                  setRespuestaCorta()            Sets the current record's "RespuestaCorta" collection
+ * @method Cuestion                  setTipoPreguntaAlternativa()   Sets the current record's "TipoPreguntaAlternativa" collection
+ * @method Cuestion                  setTipoPreguntaCorta()         Sets the current record's "TipoPreguntaCorta" collection
  * 
  * @package    themario
  * @subpackage model
@@ -72,11 +72,11 @@ abstract class BaseCuestion extends sfDoctrineRecord
              'local' => 'cuestionario_id',
              'foreign' => 'id'));
 
-        $this->hasMany('RespuestaAlternativa', array(
+        $this->hasMany('TipoPreguntaAlternativa', array(
              'local' => 'id',
              'foreign' => 'cuestion_id'));
 
-        $this->hasMany('RespuestaCorta', array(
+        $this->hasMany('TipoPreguntaCorta', array(
              'local' => 'id',
              'foreign' => 'cuestion_id'));
     }

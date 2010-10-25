@@ -75,12 +75,12 @@ Cuestion:
       local: cuestionario_id
       foreign: id
       type: one
-    RespuestaAlternativa:
+    TipoPreguntaAlternativa:
       class: RespuestaAlternativa
       local: id
       foreign: cuestion_id
       type: many
-    RespuestaCorta:
+    TipoPreguntaCorta:
       class: RespuestaCorta
       local: id
       foreign: cuestion_id
@@ -131,9 +131,9 @@ Curso:
       local: id
       foreign: tema_id
       type: many
-RespuestaAlternativa:
+TipoPreguntaAlternativa:
   connection: doctrine
-  tableName: respuestaAlternativa
+  tableName: tipoPreguntaAlternativa
   columns:
     id:
       type: integer(4)
@@ -161,9 +161,9 @@ RespuestaAlternativa:
       local: cuestion_id
       foreign: id
       type: one
-RespuestaCorta:
+TipoPreguntaCorta:
   connection: doctrine
-  tableName: respuestaCorta
+  tableName: tipoPreguntaCorta
   columns:
     id:
       type: integer(4)

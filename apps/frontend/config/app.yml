@@ -2,4 +2,16 @@
 # http://www.symfony-project.org/reference/1_4/en/11-App
 
 # default values
-#all:
+all:
+    frontend:
+        tituloApp:              'Minuevo titulowerwer'
+        msgSeleccionaCurso:     'Selecciona el curso que quieres trabajar...'
+        
+        msgSelecionaTema:       'Selecciona el tema del curso que quieres trabajar...'
+        
+        msgSelecionaContenido:  'Selecciona el contenido del tema que quieres trabajar...'
+        
+        msgContenidoNoDefinido: 'Este contenido a&uacute;n no est&aacute; definido. Disculpa las molestias.'
+        
+
+
