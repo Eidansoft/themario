@@ -13,7 +13,7 @@ class themarioActions extends sfActions
     private function listaCursos($curso_id_actual = -1)
     {
         $cursos = array();
-        $tablaCursos = Doctrine_Core::getTable('Curso')->createQuery('a')->execute();
+        $tablaCursos = Doctrine_Core::getTable('Curso')->getCursos();
         foreach ($tablaCursos as $elemento){
             $cursos[] = array('texto'   => $elemento->getNombre(),
                               'url'     => $this->getController()->genUrl('themario/curso?id='.$elemento->getId()),
@@ -25,9 +25,9 @@ class themarioActions extends sfActions
     private function listaTemas($curso_id_actual, $tema_id_actual = -1)
     {
         $temas = array();
-        $tablaTema = Doctrine_Core::getTable('Tema')->createQuery('a')->where('curso_id = ?', $curso_id_actual)->execute();
+        $tablaTema = Doctrine_Core::getTable('Tema')->getTemasDeCursoId($curso_id_actual);
         foreach ($tablaTema as $elemento){
-            $temas[] = array('texto'   => $elemento->getNombre(),
+            $temas[] = array('texto'    => $elemento->getNombre(),
                               'url'     => $this->getController()->genUrl('themario/tema?id='.$elemento->getId()),
                               'actual'  => ($elemento->getId() == $tema_id_actual ? true : false));
         }
@@ -37,11 +37,11 @@ class themarioActions extends sfActions
     private function listaContenidos($tema_id_actual, $contenido_id_actual = -1)
     {
         $contenidos = array();
-        $tablaContenidos = Doctrine_Core::getTable('Contenido')->createQuery('a')->where('tema_id = ?', $tema_id_actual)->execute();
+        $tablaContenidos = Doctrine_Core::getTable('Contenido')->getContenidosDeTemaId($tema_id_actual);
         foreach ($tablaContenidos as $elemento){
             $contenidos[] = array('texto'   => $elemento->getTitulo(),
-                              'url'     => $this->getController()->genUrl('themario/contenido?id='.$elemento->getId()),
-                              'actual'  => ($elemento->getId() == $contenido_id_actual ? true : false));
+                                  'url'     => $this->getController()->genUrl('themario/contenido?id='.$elemento->getId()),
+                                  'actual'  => ($elemento->getId() == $contenido_id_actual ? true : false));
         }
         return $contenidos;
     }
@@ -49,9 +49,8 @@ class themarioActions extends sfActions
     private function cargaListasDeContenido($contenido_id)
     {
         //Cargo las listas que crean el arbol de navegacion del menu
-        $tema_id = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $contenido_id)->fetchOne()->{'tema_id'};
-        $query = Doctrine_Core::getTable('Tema')->createQuery('j')->where('id = ?', $tema_id);
-        $curso_id = $query->fetchOne()->{'curso_id'};
+        $tema_id = Doctrine_Core::getTable('Contenido')->find($contenido_id)->getTema_id();
+        $curso_id = Doctrine_Core::getTable('Tema')->find($tema_id)->getCurso_id();
         
         $this->cursos = $this->listaCursos($curso_id);
         $this->temas = $this->listaTemas($curso_id, $tema_id);
@@ -83,16 +82,16 @@ class themarioActions extends sfActions
         $this->cargaListasDeContenido($request->getParameter('id'));
         
         //Decido si el contenido seleccionado es de tipo texto o de tipo cuestionario
-        $cuestionario = Doctrine_Core::getTable('Cuestionario')->createQuery('j')->where('contenido_id = ?', $request->getParameter('id'))->count();
+        $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->createQuery('j')->where('contenido_id = ?', $request->getParameter('id'))->count();
         if ($cuestionario > 0)
         {
-            $cuestionario = Doctrine_Core::getTable('Cuestionario')->createQuery('j3')->where('contenido_id = ?', $request->getParameter('id'));
+            $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->createQuery('j3')->where('contenido_id = ?', $request->getParameter('id'));
             $this->redirect('themario/mostrarCuestionario?id='.$cuestionario->fetchOne()->{'id'});
         }
-        $texto = Doctrine_Core::getTable('Texto')->createQuery('j2')->where('contenido_id = ?', $request->getParameter('id'))->count();
+        $texto = Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('j2')->where('contenido_id = ?', $request->getParameter('id'))->count();
         if ($texto > 0)
         {
-            $texto = Doctrine_Core::getTable('Texto')->createQuery('j4')->where('contenido_id = ?', $request->getParameter('id'));
+            $texto = Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('j4')->where('contenido_id = ?', $request->getParameter('id'));
             $this->redirect('themario/mostrarTexto?id='.$texto->fetchOne()->{'id'});
         }
         //Si no ha entrado en los if's anteriores es porque no esta aun definido el tipo del contenido
@@ -107,7 +106,7 @@ class themarioActions extends sfActions
 
     public function executeMostrarCuestionario(sfWebRequest $request)
     {
-        $query = Doctrine_Core::getTable('Cuestionario')->createQuery('j')->where('id = ?', $request->getParameter('id'));
+        $query = Doctrine_Core::getTable('ContenidoTipoCuestionario')->createQuery('j')->where('id = ?', $request->getParameter('id'));
         //cargo las listas
         $this->cargaListasDeContenido($query->fetchOne()->{'contenido_id'});
         
@@ -130,7 +129,7 @@ class themarioActions extends sfActions
 
     public function executeMostrarTexto(sfWebRequest $request)
     {
-        $query = Doctrine_Core::getTable('Texto')->createQuery('j')->where('id = ?', $request->getParameter('id'));
+        $query = Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('j')->where('id = ?', $request->getParameter('id'));
         //cargo las listas
         $this->cargaListasDeContenido($query->fetchOne()->{'contenido_id'});
         
@@ -198,8 +197,9 @@ class themarioActions extends sfActions
 */
   public function executeNew(sfWebRequest $request)
   {
-    $this->form = new CuestionarioRespuestaCortaForm();
-    $this->form = new CuestionarioRespuestaAlternativaForm(2, $this->form);
+    $this->form = new CuestionarioRespuestaAlternativaForm(2);
+    $this->form->mergeform(new CuestionarioRespuestaCortaForm());
+    //$this->form = new CuestionarioRespuestaAlternativaForm(2, $this->form);
 
   }
 /*

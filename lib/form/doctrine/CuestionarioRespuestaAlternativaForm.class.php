@@ -10,16 +10,17 @@
  */
 class CuestionarioRespuestaAlternativaForm extends BaseRespuestaAlternativaForm
 {
-    function __construct($cuestion_id, $otroForm = NULL) {
+    //function __construct($cuestion_id, $otroForm = NULL) {
+    function __construct($cuestion_id) {
         $this->cuestion_id = $cuestion_id;
-        $this->otroForm = $otroForm;        
+        //$this->otroForm = $otroForm;        
         parent::__construct();
     }
     
     public function configure()
     {
         //if ($this->otroForm != NULL){
-            $this->mergeform($this->otroForm);
+        //    $this->mergeform($this->otroForm);
         //}
         
         unset(

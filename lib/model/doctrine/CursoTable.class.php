@@ -16,4 +16,8 @@ class CursoTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Curso');
     }
+    
+    public function getCursos(){
+        return Doctrine_Core::getTable('Curso')->createQuery('a')->execute();
+    }
 }

@@ -12,23 +12,23 @@ Doctrine_Manager::getInstance()->bindComponent('Contenido', 'doctrine');
  * @property integer $tema_id
  * @property integer $orden
  * @property Tema $Tema
- * @property Doctrine_Collection $Cuestionario
- * @property Doctrine_Collection $Texto
+ * @property Doctrine_Collection $ContenidoTipoCuestionario
+ * @property Doctrine_Collection $ContenidoTipoTexto
  * 
- * @method integer             getId()           Returns the current record's "id" value
- * @method string              getTitulo()       Returns the current record's "titulo" value
- * @method integer             getTemaId()       Returns the current record's "tema_id" value
- * @method integer             getOrden()        Returns the current record's "orden" value
- * @method Tema                getTema()         Returns the current record's "Tema" value
- * @method Doctrine_Collection getCuestionario() Returns the current record's "Cuestionario" collection
- * @method Doctrine_Collection getTexto()        Returns the current record's "Texto" collection
- * @method Contenido           setId()           Sets the current record's "id" value
- * @method Contenido           setTitulo()       Sets the current record's "titulo" value
- * @method Contenido           setTemaId()       Sets the current record's "tema_id" value
- * @method Contenido           setOrden()        Sets the current record's "orden" value
- * @method Contenido           setTema()         Sets the current record's "Tema" value
- * @method Contenido           setCuestionario() Sets the current record's "Cuestionario" collection
- * @method Contenido           setTexto()        Sets the current record's "Texto" collection
+ * @method integer             getId()                        Returns the current record's "id" value
+ * @method string              getTitulo()                    Returns the current record's "titulo" value
+ * @method integer             getTemaId()                    Returns the current record's "tema_id" value
+ * @method integer             getOrden()                     Returns the current record's "orden" value
+ * @method Tema                getTema()                      Returns the current record's "Tema" value
+ * @method Doctrine_Collection getContenidoTipoCuestionario() Returns the current record's "ContenidoTipoCuestionario" collection
+ * @method Doctrine_Collection getContenidoTipoTexto()        Returns the current record's "ContenidoTipoTexto" collection
+ * @method Contenido           setId()                        Sets the current record's "id" value
+ * @method Contenido           setTitulo()                    Sets the current record's "titulo" value
+ * @method Contenido           setTemaId()                    Sets the current record's "tema_id" value
+ * @method Contenido           setOrden()                     Sets the current record's "orden" value
+ * @method Contenido           setTema()                      Sets the current record's "Tema" value
+ * @method Contenido           setContenidoTipoCuestionario() Sets the current record's "ContenidoTipoCuestionario" collection
+ * @method Contenido           setContenidoTipoTexto()        Sets the current record's "ContenidoTipoTexto" collection
  * 
  * @package    themario
  * @subpackage model
@@ -84,11 +84,11 @@ abstract class BaseContenido extends sfDoctrineRecord
              'local' => 'tema_id',
              'foreign' => 'id'));
 
-        $this->hasMany('Cuestionario', array(
+        $this->hasMany('ContenidoTipoCuestionario', array(
              'local' => 'id',
              'foreign' => 'contenido_id'));
 
-        $this->hasMany('Texto', array(
+        $this->hasMany('ContenidoTipoTexto', array(
              'local' => 'id',
              'foreign' => 'contenido_id'));
     }

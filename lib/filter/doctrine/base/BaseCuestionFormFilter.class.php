@@ -14,12 +14,12 @@ abstract class BaseCuestionFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'pregunta'        => new sfWidgetFormFilterInput(),
-      'cuestionario_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestionario'), 'add_empty' => true)),
+      'cuestionario_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('ContenidoTipoCuestionario'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
       'pregunta'        => new sfValidatorPass(array('required' => false)),
-      'cuestionario_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Cuestionario'), 'column' => 'id')),
+      'cuestionario_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('ContenidoTipoCuestionario'), 'column' => 'id')),
     ));
 
     $this->widgetSchema->setNameFormat('cuestion_filters[%s]');

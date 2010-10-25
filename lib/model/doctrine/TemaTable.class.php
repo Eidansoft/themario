@@ -16,4 +16,8 @@ class TemaTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Tema');
     }
+    
+    public function getTemasDeCursoId($curso_id){
+        return Doctrine_Core::getTable('Tema')->createQuery('a')->where('curso_id = ?', $curso_id)->execute();
+    }
 }
