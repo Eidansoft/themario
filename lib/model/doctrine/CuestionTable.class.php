@@ -17,6 +17,11 @@ class CuestionTable extends Doctrine_Table
         return Doctrine_Core::getTable('Cuestion');
     }
     
+    public function getCuestionDeCuestionarioId($cuestionario_id)
+    {
+        return Doctrine_Core::getTable('Cuestion')->createQuery('a')->where('cuestionario_id = ?', $cuestionario_id)->execute();
+    }
+    
     public function getTipoCuestion($cuestion_id)
     {
         //consulto todas las tablas de mi esquema denominadas "respuesta....."

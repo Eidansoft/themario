@@ -71,9 +71,6 @@ class themarioActions extends sfActions
         } catch (sfException $e) {
             return NULL;
         }
-        
-        
-        
     }
     
     public function executeContenido(sfWebRequest $request)
@@ -81,42 +78,34 @@ class themarioActions extends sfActions
         //cargo las listas
         $this->cargaListasDeContenido($request->getParameter('id'));
         
-        //Decido si el contenido seleccionado es de tipo texto o de tipo cuestionario
-        $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->createQuery('j')->where('contenido_id = ?', $request->getParameter('id'))->count();
-        if ($cuestionario > 0)
-        {
-            $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->createQuery('j3')->where('contenido_id = ?', $request->getParameter('id'));
-            $this->redirect('themario/mostrarCuestionario?id='.$cuestionario->fetchOne()->{'id'});
+        //Según el tipo del contenido seleccionado, redirecciono a uno u otro metodo
+        try {
+            $tablaContenidoTipo = Doctrine_Core::getTable('Contenido')->getTipoContenido($request->getParameter('id'));
+            $contenidoTipo = Doctrine_Core::getTable($tablaContenidoTipo)->createQuery('j3')->where('contenido_id = ?', $request->getParameter('id'));
+            $this->redirect('themario/' . $tablaContenidoTipo . '?id='.$contenidoTipo->fetchOne()->{'id'});
+        } catch (sfException $e) {
+            //Si se recibe una excepcion es porque no esta aun definido el tipo del contenido
+            //asique muestro el titulo definido y un comentario
+            $query = Doctrine_Core::getTable('Contenido')->createQuery('j5')->where('id = ?', $request->getParameter('id'));
+            $this->titulo = $query->fetchOne()->{'titulo'};
+            $this->comentario = "Este contenido a&uacute;n no est&aacute; definido. Disculpa las molestias.";
+            $this->setTemplate('index');
         }
-        $texto = Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('j2')->where('contenido_id = ?', $request->getParameter('id'))->count();
-        if ($texto > 0)
-        {
-            $texto = Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('j4')->where('contenido_id = ?', $request->getParameter('id'));
-            $this->redirect('themario/mostrarTexto?id='.$texto->fetchOne()->{'id'});
-        }
-        //Si no ha entrado en los if's anteriores es porque no esta aun definido el tipo del contenido
-        //asique muestro el titulo definido y un comentario
-        $query = Doctrine_Core::getTable('Contenido')->createQuery('j5')->where('id = ?', $request->getParameter('id'));
-        $this->titulo = $query->fetchOne()->{'titulo'};
-        $this->comentario = "Este contenido a&uacute;n no est&aacute; definido. Disculpa las molestias.";
-        $this->setTemplate('index');
-        
-        
     }
 
-    public function executeMostrarCuestionario(sfWebRequest $request)
+    public function executeContenidoTipoCuestionario(sfWebRequest $request)
     {
-        $query = Doctrine_Core::getTable('ContenidoTipoCuestionario')->createQuery('j')->where('id = ?', $request->getParameter('id'));
+        $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->find($request->getParameter('id'));
         //cargo las listas
-        $this->cargaListasDeContenido($query->fetchOne()->{'contenido_id'});
+        $this->cargaListasDeContenido($cuestionario->getContenido_id());
         
         //Titulo y cuestionario
-        $query2 = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $query->fetchOne()->{'contenido_id'});
-        $this->titulo = $query2->fetchOne()->{'titulo'};
-        $this->cuestionario_id = $request->getParameter('id');
+        $contenido = Doctrine_Core::getTable('Contenido')->find($cuestionario->getContenido_id());
+        $this->titulo = $contenido->getTitulo();
+        $this->cuestionario_id = $cuestionario->getId();
         //el cuestionario sera un array con la pregunta, el tipo y el objeto respuesta del tipo que corresponda
         $this->cuestiones = array();
-        $tablaCuestion = Doctrine_Core::getTable('Cuestion')->createQuery('j')->where('cuestionario_id = ?', $request->getParameter('id'))->execute();
+        $tablaCuestion = Doctrine_Core::getTable('Cuestion')->getCuestionDeCuestionarioId($cuestionario->getId());
         foreach ($tablaCuestion as $cuestion)
         {
             $respuesta = $this->eligeTipoCuestion($cuestion['id'], $cuestion['pregunta']);
@@ -127,33 +116,32 @@ class themarioActions extends sfActions
         }
     }
 
-    public function executeMostrarTexto(sfWebRequest $request)
+    public function executeContenidoTipoTexto(sfWebRequest $request)
     {
-        $query = Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('j')->where('id = ?', $request->getParameter('id'));
+        $texto = Doctrine_Core::getTable('ContenidoTipoTexto')->find($request->getParameter('id'));
         //cargo las listas
-        $this->cargaListasDeContenido($query->fetchOne()->{'contenido_id'});
+        $this->cargaListasDeContenido($texto->getContenido_id());
         
         //Titulo y comentario que se mostrara
         
-        $query2 = Doctrine_Core::getTable('Contenido')->createQuery('j')->where('id = ?', $query->fetchOne()->{'contenido_id'});
-        $this->titulo = $query2->fetchOne()->{'titulo'};
-        $this->comentario = $query->fetchOne()->{'texto'};
+        $contenido = Doctrine_Core::getTable('Contenido')->find($texto->getContenido_id());
+        $this->titulo = $contenido->getTitulo();
+        $this->comentario = $texto->getTexto();
         
         $this->setTemplate('index');
     }
     
     public function executeTema(sfWebRequest $request)
     {
-        $query = Doctrine_Core::getTable('Tema')->createQuery('j')->where('id = ?', $request->getParameter('id'));
-        $curso_id = $query->fetchOne()->{'curso_id'};
+        $tema = Doctrine_Core::getTable('Tema')->find($request->getParameter('id'));
+        $curso_id = $tema->getCurso_id();
         
         $this->cursos = $this->listaCursos($curso_id);
         $this->temas = $this->listaTemas($curso_id, $request->getParameter('id'));
         $this->contenidos = $this->listaContenidos($request->getParameter('id'));
         
         //Titulo y comentario que se mostrara
-        $query = Doctrine_Core::getTable('Tema')->createQuery('j')->where('id = ?', $request->getParameter('id'));
-        $this->titulo = $query->fetchOne()->{'nombre'};
+        $this->titulo = $tema->getNombre();
         $this->comentario = "Selecciona el contenido del tema que quieres trabajar...";
         
         $this->setTemplate('index');
@@ -165,8 +153,8 @@ class themarioActions extends sfActions
         $this->temas = $this->listaTemas($request->getParameter('id'));
         
         //Titulo y comentario que se mostrara
-        $query = Doctrine_Core::getTable('Curso')->createQuery('j')->where('id = ?', $request->getParameter('id'));
-        $this->titulo = $query->fetchOne()->{'nombre'};
+        $curso = Doctrine_Core::getTable('Curso')->find($request->getParameter('id'));
+        $this->titulo = $curso->getNombre();
         $this->comentario = "Selecciona el tema del curso que quieres trabajar...";
         
         $this->setTemplate('index');
