@@ -12,4 +12,8 @@
  */
 class TipoPreguntaAlternativa extends BaseTipoPreguntaAlternativa
 {
+    public static function getFormularioRespuesta($cuestion_id)
+    {
+        return new RespuestaAlternativaForm($cuestion_id);
+    }
 }

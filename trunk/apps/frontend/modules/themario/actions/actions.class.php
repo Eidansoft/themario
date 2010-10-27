@@ -92,7 +92,7 @@ class themarioActions extends sfActions
             $this->setTemplate('index');
         }
     }
-
+/* PRIMERA VERSION, LOS FORMULARIOS LOS CREO YO A MANO
     public function executeContenidoTipoCuestionario(sfWebRequest $request)
     {
         $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->find($request->getParameter('id'));
@@ -115,7 +115,7 @@ class themarioActions extends sfActions
             }
         }
     }
-
+*/
     public function executeContenidoTipoTexto(sfWebRequest $request)
     {
         $texto = Doctrine_Core::getTable('ContenidoTipoTexto')->find($request->getParameter('id'));
@@ -167,77 +167,106 @@ class themarioActions extends sfActions
         $this->cursos = $this->listaCursos();
     }
     
-    public function executeSolucionCuestionario(sfWebRequest $request)
+    //SEGUNDA VERSION, UTILIZO LOS FORMULARIOS DEL FRAMEWORK
+    //public function executeMuestraCuestionario(sfWebRequest $request)
+    public function executeContenidoTipoCuestionario(sfWebRequest $request)
     {
-        /*$cuestiones = Doctrine_Core::getTable('Cuestion')->createQuery('j')->where('cuestionario_id = ?', $request->getParameter('id'))->execute();
+        //cargo las listas
+        $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->find($request->getParameter('id'));
+        $contenido = Doctrine_Core::getTable('Contenido')->find($cuestionario->getContenido_id());
+        $this->cargaListasDeContenido($cuestionario->getContenido_id());
+        $this->titulo = $contenido->getTitulo();
+        
+        //creo el formulario para que se muestre
+        $this->form = $this->creaCuestionario($request->getParameter('id'));
+    }
+    
+    private function creaCuestionario($cuestionario_id)
+    {
+        $cuestiones = Doctrine_Core::getTable('Cuestion')->getCuestionDeCuestionarioId($cuestionario_id);
+        $form = new CuestionarioGenericoForm($cuestionario_id);
         foreach ($cuestiones as $cuestion){
-            $tablaRespuesta = Doctrine_Core::getTable('Cuestion')->getTipoCuestion($cuestion->getId());
-            include_once $tablaRespuesta.'.class.php';
-            list($key, $value) = each($_POST);
-        }*/
+            $cuestionTipo = Doctrine_Core::getTable('Cuestion')->getTipoCuestion($cuestion->getId());
+            $objTipoPregunta = Doctrine_Core::getTable($cuestionTipo)->createQuery('j3')->where('cuestion_id = ?', $cuestion->getId())->fetchOne();
+
+            $form->mergeForm($objTipoPregunta->getFormularioRespuesta($cuestion->getId()));
+        }
+        return $form;
     }
-/*
-  public function executeShow(sfWebRequest $request)
-  {
-    $this->curso = Doctrine_Core::getTable('Curso')->find(array($request->getParameter('id')));
-    $this->forward404Unless($this->curso);
-  }
-*/
-  public function executeNew(sfWebRequest $request)
-  {
-    $this->form = new CuestionarioRespuestaAlternativaForm(2);
-    $this->form->mergeform(new CuestionarioRespuestaCortaForm());
-    //$this->form = new CuestionarioRespuestaAlternativaForm(2, $this->form);
 
-  }
-/*
-  public function executeCreate(sfWebRequest $request)
-  {
-    $this->forward404Unless($request->isMethod(sfRequest::POST));
-
-    $this->form = new CursoForm();
-
-    $this->processForm($request, $this->form);
-
-    $this->setTemplate('new');
-  }
-
-  public function executeEdit(sfWebRequest $request)
-  {
-    $this->forward404Unless($curso = Doctrine_Core::getTable('Curso')->find(array($request->getParameter('id'))), sprintf('Object curso does not exist (%s).', $request->getParameter('id')));
-    $this->form = new CursoForm($curso);
-  }
-
-  public function executeUpdate(sfWebRequest $request)
-  {
-    $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($curso = Doctrine_Core::getTable('Curso')->find(array($request->getParameter('id'))), sprintf('Object curso does not exist (%s).', $request->getParameter('id')));
-    $this->form = new CursoForm($curso);
-
-    $this->processForm($request, $this->form);
-
-    $this->setTemplate('edit');
-  }
-
-  public function executeDelete(sfWebRequest $request)
-  {
-    $request->checkCSRFProtection();
-
-    $this->forward404Unless($curso = Doctrine_Core::getTable('Curso')->find(array($request->getParameter('id'))), sprintf('Object curso does not exist (%s).', $request->getParameter('id')));
-    $curso->delete();
-
-    $this->redirect('themario/index');
-  }
-
-  protected function processForm(sfWebRequest $request, sfForm $form)
-  {
-    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
-    if ($form->isValid())
+    private function salvarCuestionario($parametrosRecibidos)
     {
-      $curso = $form->save();
+        $cuestiones = Doctrine_Core::getTable('Cuestion')->getCuestionDeCuestionarioId($parametrosRecibidos['cuestionario_id']);
+        foreach ($cuestiones as $cuestion){
+            $fecha = time();
+            $alumno = Doctrine_Core::getTable('Alumno')->find(1);
+            
+            //Creo una nueva respuesta
+            $respuesta = new Respuesta();
+            
+            //Creo la nueva relacion CuestionAlumnoRespuesta
+            $cuestionAlumnoRespuesta = new CuestionAlumnoRespuesta();
+            $cuestionAlumnoRespuesta->setCuestion($cuestion);
+            $cuestionAlumnoRespuesta->setAlumno($alumno);
+            $cuestionAlumnoRespuesta->setFecha($fecha);
+            $cuestionAlumnoRespuesta->setRespuesta($respuesta);
+            
+            $respuesta->save();
+            
+            //En funcion del tipo de cuestion, creo su tipo correspondiente y su respuesta
 
-      $this->redirect('themario/edit?id='.$curso->getId());
+            $cuestionTipo = Doctrine_Core::getTable('Cuestion')->getTipoCuestion($cuestion->getId());
+            $objTipoPregunta = Doctrine_Core::getTable($cuestionTipo)->createQuery('j3')->where('cuestion_id = ?', $cuestion->getId())->fetchOne();
+            $objTipoPregunta->getFormularioRespuesta($cuestion->getId())->getRespuestaRellena($respuesta, $cuestion->getId(), $parametrosRecibidos);
+                        
+            $cuestionAlumnoRespuesta->save();
+        }
+        return true;
     }
-  }
-  */
+
+    public function executeCreate(sfWebRequest $request)
+    {
+        //Compruebo que recibo datos por POST y entr ellos esta el "cuestionario_id"
+        $this->forward404Unless($request->isMethod(sfRequest::POST));
+        $temporal = new CuestionarioGenericoForm(-1);
+        $parametrosRecibidos = $request->getParameter($temporal->getName());
+        $this->forward404Unless(isset($parametrosRecibidos['cuestionario_id']));
+
+        $this->form = $this->creaCuestionario($parametrosRecibidos['cuestionario_id']);
+
+        $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+        if ($this->form->isValid())
+        {
+            if ($this->salvarCuestionario($parametrosRecibidos))
+            {
+                $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->find($parametrosRecibidos['cuestionario_id']);
+                $contenido = Doctrine_Core::getTable('Contenido')->find($cuestionario->getContenido_id());
+                $tema = Doctrine_Core::getTable('Tema')->find($contenido->getTema_id());
+                $curso_id = $tema->getCurso_id();
+                
+                $this->cursos = $this->listaCursos($curso_id);
+                $this->temas = $this->listaTemas($curso_id, $contenido->getTema_id());
+                $this->contenidos = $this->listaContenidos($contenido->getTema_id());
+                
+                //Titulo y comentario que se mostrara
+                $this->titulo = 'Guardado';
+                $this->comentario = 'Respuestas procesadas con exito. Gracias !';
+                
+                $this->setTemplate('index');
+            } else {
+                $this->titulo = 'ERROR';
+                $this->comentario ='Ha ocurrido un error al salvar la informacion';
+                $this->setTemplate('index');
+            }
+        } else {
+            //El formulario tiene errores o faltan campos obligatorios
+            //cargo las listas
+            $cuestionario = Doctrine_Core::getTable('ContenidoTipoCuestionario')->find($parametrosRecibidos['cuestionario_id']);
+            $contenido = Doctrine_Core::getTable('Contenido')->find($cuestionario->getContenido_id());
+            $this->cargaListasDeContenido($cuestionario->getContenido_id());
+            $this->titulo = $contenido->getTitulo();
+            
+            $this->setTemplate('contenidoTipoCuestionario');
+        }
+    }
 }

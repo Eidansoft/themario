@@ -15,15 +15,15 @@ abstract class BaseRespuestaAlternativaForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'          => new sfWidgetFormInputHidden(),
-      'cuestion_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => false)),
-      'texto'       => new sfWidgetFormTextarea(),
+      'id'                          => new sfWidgetFormInputHidden(),
+      'tipoRespuestaAlternativa_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('TipoRespuestaAlternativa'), 'add_empty' => false)),
+      'respuestaElegida_id'         => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'cuestion_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'))),
-      'texto'       => new sfValidatorString(array('max_length' => 500)),
+      'id'                          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'tipoRespuestaAlternativa_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('TipoRespuestaAlternativa'))),
+      'respuestaElegida_id'         => new sfValidatorInteger(),
     ));
 
     $this->widgetSchema->setNameFormat('respuesta_alternativa[%s]');

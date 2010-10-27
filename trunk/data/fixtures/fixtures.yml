@@ -4,6 +4,13 @@ curso:
   dfsi_lm:
     nombre: Diseño de funciones en el sistema informático / Lenguajes de marcas
 
+
+
+
+
+
+
+
 tema:
   introduccion_ple_fp:
     Curso: ple_fp
@@ -17,6 +24,16 @@ tema:
   introduccion_dfsi_lm:
     Curso: dfsi_lm
     nombre: Introduccion a la manufacturacion
+
+
+
+
+
+
+
+
+
+
 
 contenido:
   metodologia1:
@@ -87,10 +104,13 @@ contenido:
     Tema: programacion_ple_fp
     titulo: Utilidades para el desarrollo y prueba de programas no incluidos en el entorno integrado
     orden: 4
-  cuestionarioProgramacion:
+  cuestionarioProgramaciones:
     Tema: programacion_ple_fp
     titulo: Cuestionario
     orden: 5
+
+
+
 contenidoTipoTexto:
   textoMetodologia1:
     Contenido: metodologia1
@@ -117,11 +137,35 @@ contenidoTipoTexto:
       Excepteur sint occaecat cupidatat non proident, sunt in culpa
       qui officia deserunt mollit anim id est laborum.
 
+
+
+
+
+
+
+
+
+
+
 contenidoTipoCuestionario:
   cuestionarioMetodologia:
     Contenido: cuestionarioMetodologia
   cuestionarioEstructura:
     Contenido: cuestionarioEstructuras
+  cuestionarioProgramacion:
+    Contenido: cuestionarioProgramaciones
+
+
+
+
+
+
+
+
+
+
+
+
 
 cuestion:
   cuestion1:
@@ -130,11 +174,34 @@ cuestion:
   cuestion2:
     pregunta: ¿Creés que una <a href="www.google.com">estructura</a> de Pila LIFO es de tipo...?
     ContenidoTipoCuestionario: cuestionarioMetodologia
+  cuestionNombre:
+    pregunta: ¿Cual es tu nombre?
+    ContenidoTipoCuestionario: cuestionarioProgramacion
+  cuestionApellidos:
+    pregunta: Haz el favor de escribir tus apellidos
+    ContenidoTipoCuestionario: cuestionarioProgramacion
+  cuestionCCC:
+    pregunta: E indica cual es tu numero de cuenta correinte...
+    ContenidoTipoCuestionario: cuestionarioProgramacion
+
+
+
+
+
+
 
 tipoPreguntaCorta:
   respuestaCorta1: 
     texto: Motivos aquí ...
     Cuestion: cuestion1
+  respuestaCortaNombre: 
+    texto: Pepito grillo??
+    Cuestion: cuestionNombre
+  respuestaCortaApp:
+    Cuestion: cuestionApellidos
+  respuestaCortaCCC: 
+    texto: jejeje
+    Cuestion: cuestionCCC
 
 tipoPreguntaAlternativa:
   respuestaAlternativa1: 
@@ -146,3 +213,30 @@ tipoPreguntaAlternativa:
 
 
 
+
+
+
+alumno:
+  alumno1:
+    nombre: Alejandro
+  alumno2:
+    nombre: Beatriz
+
+respuesta:
+  respuesta1:
+
+tipoRespuestaCorta:
+  tipoRespuestaCorta1:
+    Respuesta: respuesta1
+
+respuestaCorta:
+  unaRespuestaCorta1:
+    texto: Esto es lo escrito por el alumno
+    TipoRespuestaCorta: tipoRespuestaCorta1
+  
+cuestionAlumnoRespuesta:
+  uncuestionario1:
+    Cuestion: cuestion1
+    Respuesta: respuesta1
+    Alumno: alumno1
+    fecha: '2010-10-10'

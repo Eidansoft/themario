@@ -13,13 +13,13 @@ abstract class BaseRespuestaAlternativaFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'cuestion_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => true)),
-      'texto'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'tipoRespuestaAlternativa_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('TipoRespuestaAlternativa'), 'add_empty' => true)),
+      'respuestaElegida_id'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
-      'cuestion_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Cuestion'), 'column' => 'id')),
-      'texto'       => new sfValidatorPass(array('required' => false)),
+      'tipoRespuestaAlternativa_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('TipoRespuestaAlternativa'), 'column' => 'id')),
+      'respuestaElegida_id'         => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('respuesta_alternativa_filters[%s]');
@@ -39,9 +39,9 @@ abstract class BaseRespuestaAlternativaFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'          => 'Number',
-      'cuestion_id' => 'ForeignKey',
-      'texto'       => 'Text',
+      'id'                          => 'Number',
+      'tipoRespuestaAlternativa_id' => 'ForeignKey',
+      'respuestaElegida_id'         => 'Number',
     );
   }
 }

@@ -1,3 +1,15 @@
+##################################################################################################
+# MODELO PRINCIPAL
+# Compuesto por:
+#   - Curso
+#   - Tema
+#   - Contenido
+#   - Texto
+#   - Cuestionario
+#   - Cuestion
+#   - TipoPreguntaAlternativa
+#   - TipoPreguntaCorta
+##################################################################################################
 Contenido:
   connection: doctrine
   tableName: contenido
@@ -76,12 +88,17 @@ Cuestion:
       foreign: id
       type: one
     TipoPreguntaAlternativa:
-      class: RespuestaAlternativa
+      class: TipoPreguntaAlternativa
       local: id
       foreign: cuestion_id
       type: many
     TipoPreguntaCorta:
-      class: RespuestaCorta
+      class: TipoPreguntaCorta
+      local: id
+      foreign: cuestion_id
+      type: many
+    CuestionAlumnoRespuesta:
+      class: CuestionAlumnoRespuesta
       local: id
       foreign: cuestion_id
       type: many
@@ -254,5 +271,231 @@ ContenidoTipoTexto:
     Contenido:
       class: Contenido
       local: contenido_id
+      foreign: id
+      type: one
+##################################################################################################
+# MODELO SECUNDARIO ALMACENAMIENTO DE RESPUESTAS
+# Compuesto por:
+#   - Respuesta
+#   - Alumno
+#   - TipoRespuestaAlternativa
+#   - TipoRespuestaCorta
+#   - RespuestaAlternativa
+#   - RespuestaCorta
+#   - CuestionAlumnoRespuesta
+##################################################################################################
+Alumno:
+  connection: doctrine
+  tableName: alumno
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    nombre:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    CuestionAlumnoRespuesta:
+      class: CuestionAlumnoRespuesta
+      local: id
+      foreign: alumno_id
+      type: many
+Respuesta:
+  connection: doctrine
+  tableName: respuesta
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+  relations:
+    TipoRespuestaCorta:
+      class: TipoRespuestaCorta
+      local: id
+      foreign: respuesta_id
+      type: many
+    TipoRespuestaAlternativa:
+      class: TipoRespuestaAlternativa
+      local: id
+      foreign: respuesta_id
+      type: many
+    CuestionAlumnoRespuesta:
+      class: CuestionAlumnoRespuesta
+      local: id
+      foreign: respuesta_id
+      type: many
+TipoRespuestaCorta:
+  connection: doctrine
+  tableName: tipoRespuestaCorta
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    respuesta_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Respuesta:
+      class: Respuesta
+      local: respuesta_id
+      foreign: id
+      type: one
+    RespuestaCorta:
+      class: RespuestaCorta
+      local: id
+      foreign: tipoRespuestaCorta_id
+      type: many
+TipoRespuestaAlternativa:
+  connection: doctrine
+  tableName: tipoRespuestaAlternativa
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    respuesta_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    Respuesta:
+      class: Respuesta
+      local: respuesta_id
+      foreign: id
+      type: one
+    RespuestaAlternativa:
+      class: RespuestaAlternativa
+      local: id
+      foreign: tipoRespuestaAlternativa_id
+      type: many
+RespuestaCorta:
+  connection: doctrine
+  tableName: respuestaCorta
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    tipoRespuestaCorta_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    texto:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    TipoRespuestaCorta:
+      class: TipoRespuestaCorta
+      local: tipoRespuestaCorta_id
+      foreign: id
+      type: one
+RespuestaAlternativa:
+  connection: doctrine
+  tableName: respuestaAlternativa
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    tipoRespuestaAlternativa_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    respuestaElegida_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    TipoRespuestaAlternativa:
+      class: TipoRespuestaAlternativa
+      local: tipoRespuestaAlternativa_id
+      foreign: id
+      type: one
+CuestionAlumnoRespuesta:
+  connection: doctrine
+  tableName: cuestionAlumnoRespuesta
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    cuestion_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    respuesta_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    alumno_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    fecha:
+      type: timestamp
+      notnull: true
+  relations:
+    Respuesta:
+      class: Respuesta
+      local: respuesta_id
+      foreign: id
+      type: one
+    Cuestion:
+      class: Cuestion
+      local: cuestion_id
+      foreign: id
+      type: one
+    Alumno:
+      class: Alumno
+      local: alumno_id
       foreign: id
       type: one

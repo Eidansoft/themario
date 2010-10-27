@@ -1,14 +1,6 @@
 <h1><?php echo $titulo ?></h1>
 
-<form action="<?php echo url_for('themario/solucionCuestionario?id='.$cuestionario_id) ?>" type="post">
-<?php foreach ($sf_data->getRaw('cuestiones') as $cuestion): ?>
-    <?php include '_'.$cuestion['tipo'].'.php' ?>
-<?php endforeach; ?>
-<input type="submit" value="Enviar" /><input type="reset" value="Limpiar" />
-</form>
-
-
-
+<?php include_partial('form', array('form' => $form)) ?>
 
 
 <?php slot('menu') ?>
@@ -33,4 +25,3 @@
     <?php endforeach; ?>
 </ul>
 <?php end_slot() ?>
-
