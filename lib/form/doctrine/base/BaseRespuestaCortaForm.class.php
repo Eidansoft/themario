@@ -15,15 +15,15 @@ abstract class BaseRespuestaCortaForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'          => new sfWidgetFormInputHidden(),
-      'cuestion_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => false)),
-      'texto'       => new sfWidgetFormTextarea(),
+      'id'                    => new sfWidgetFormInputHidden(),
+      'tipoRespuestaCorta_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('TipoRespuestaCorta'), 'add_empty' => false)),
+      'texto'                 => new sfWidgetFormTextarea(),
     ));
 
     $this->setValidators(array(
-      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'cuestion_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'))),
-      'texto'       => new sfValidatorString(array('max_length' => 500, 'required' => false)),
+      'id'                    => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'tipoRespuestaCorta_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('TipoRespuestaCorta'))),
+      'texto'                 => new sfValidatorString(array('max_length' => 500, 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('respuesta_corta[%s]');

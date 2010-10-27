@@ -13,6 +13,7 @@ Doctrine_Manager::getInstance()->bindComponent('Cuestion', 'doctrine');
  * @property ContenidoTipoCuestionario $ContenidoTipoCuestionario
  * @property Doctrine_Collection $TipoPreguntaAlternativa
  * @property Doctrine_Collection $TipoPreguntaCorta
+ * @property Doctrine_Collection $CuestionAlumnoRespuesta
  * 
  * @method integer                   getId()                        Returns the current record's "id" value
  * @method string                    getPregunta()                  Returns the current record's "pregunta" value
@@ -20,12 +21,14 @@ Doctrine_Manager::getInstance()->bindComponent('Cuestion', 'doctrine');
  * @method ContenidoTipoCuestionario getContenidoTipoCuestionario() Returns the current record's "ContenidoTipoCuestionario" value
  * @method Doctrine_Collection       getTipoPreguntaAlternativa()   Returns the current record's "TipoPreguntaAlternativa" collection
  * @method Doctrine_Collection       getTipoPreguntaCorta()         Returns the current record's "TipoPreguntaCorta" collection
+ * @method Doctrine_Collection       getCuestionAlumnoRespuesta()   Returns the current record's "CuestionAlumnoRespuesta" collection
  * @method Cuestion                  setId()                        Sets the current record's "id" value
  * @method Cuestion                  setPregunta()                  Sets the current record's "pregunta" value
  * @method Cuestion                  setCuestionarioId()            Sets the current record's "cuestionario_id" value
  * @method Cuestion                  setContenidoTipoCuestionario() Sets the current record's "ContenidoTipoCuestionario" value
  * @method Cuestion                  setTipoPreguntaAlternativa()   Sets the current record's "TipoPreguntaAlternativa" collection
  * @method Cuestion                  setTipoPreguntaCorta()         Sets the current record's "TipoPreguntaCorta" collection
+ * @method Cuestion                  setCuestionAlumnoRespuesta()   Sets the current record's "CuestionAlumnoRespuesta" collection
  * 
  * @package    themario
  * @subpackage model
@@ -77,6 +80,10 @@ abstract class BaseCuestion extends sfDoctrineRecord
              'foreign' => 'cuestion_id'));
 
         $this->hasMany('TipoPreguntaCorta', array(
+             'local' => 'id',
+             'foreign' => 'cuestion_id'));
+
+        $this->hasMany('CuestionAlumnoRespuesta', array(
              'local' => 'id',
              'foreign' => 'cuestion_id'));
     }

@@ -12,4 +12,8 @@
  */
 class TipoPreguntaCorta extends BaseTipoPreguntaCorta
 {
+    public static function getFormularioRespuesta($cuestion_id)
+    {
+        return new RespuestaCortaForm($cuestion_id);
+    }
 }

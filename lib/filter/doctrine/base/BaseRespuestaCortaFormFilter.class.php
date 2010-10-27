@@ -13,13 +13,13 @@ abstract class BaseRespuestaCortaFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'cuestion_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => true)),
-      'texto'       => new sfWidgetFormFilterInput(),
+      'tipoRespuestaCorta_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('TipoRespuestaCorta'), 'add_empty' => true)),
+      'texto'                 => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'cuestion_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Cuestion'), 'column' => 'id')),
-      'texto'       => new sfValidatorPass(array('required' => false)),
+      'tipoRespuestaCorta_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('TipoRespuestaCorta'), 'column' => 'id')),
+      'texto'                 => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('respuesta_corta_filters[%s]');
@@ -39,9 +39,9 @@ abstract class BaseRespuestaCortaFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'          => 'Number',
-      'cuestion_id' => 'ForeignKey',
-      'texto'       => 'Text',
+      'id'                    => 'Number',
+      'tipoRespuestaCorta_id' => 'ForeignKey',
+      'texto'                 => 'Text',
     );
   }
 }
