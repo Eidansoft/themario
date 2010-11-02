@@ -17,7 +17,7 @@ abstract class BaseCuestionAlumnoRespuestaForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'           => new sfWidgetFormInputHidden(),
       'cuestion_id'  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => false)),
-      'respuesta_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Respuesta'), 'add_empty' => true)),
+      'respuesta_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Respuesta'), 'add_empty' => false)),
       'alumno_id'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Alumno'), 'add_empty' => false)),
       'fecha'        => new sfWidgetFormDateTime(),
     ));
@@ -25,7 +25,7 @@ abstract class BaseCuestionAlumnoRespuestaForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'           => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'cuestion_id'  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'))),
-      'respuesta_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Respuesta'), 'required' => false)),
+      'respuesta_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Respuesta'))),
       'alumno_id'    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Alumno'))),
       'fecha'        => new sfValidatorDateTime(),
     ));

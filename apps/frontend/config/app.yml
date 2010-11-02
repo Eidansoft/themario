@@ -4,14 +4,20 @@
 # default values
 all:
     frontend:
-        tituloApp:              'Minuevo titulowerwer'
-        msgSeleccionaCurso:     'Selecciona el curso que quieres trabajar...'
+        tituloApp:                      'TheMario'
         
-        msgSelecionaTema:       'Selecciona el tema del curso que quieres trabajar...'
+        msgSeleccionaCurso:             'Selecciona el curso que quieres trabajar...'
         
-        msgSelecionaContenido:  'Selecciona el contenido del tema que quieres trabajar...'
+        msgSelecionaTema:               'Selecciona el tema del curso que quieres trabajar...'
         
-        msgContenidoNoDefinido: 'Este contenido a&uacute;n no est&aacute; definido. Disculpa las molestias.'
+        msgSelecionaContenido:          'Selecciona el contenido del tema que quieres trabajar...'
         
+        msgContenidoNoDefinido:         'Este contenido a&uacute;n no est&aacute; definido. Disculpa las molestias.'
+        
+        tituloErrorGuardaCuestionario:  'Error'
+        
+        msgErrorGuardaCuestionario:     'Ha ocurrido un error al salvar la informaci&oacute;n'
 
-
+        tituloExitoGuardaCuestionario:  'Datos guardados'
+        
+        msgExitoGuardaCuestionario:     'Las respuestas se han guardado correctamente. ¡Gracias!'

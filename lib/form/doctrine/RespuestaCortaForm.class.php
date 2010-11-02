@@ -26,7 +26,7 @@ class RespuestaCortaForm extends BaseRespuestaCortaForm
         $cuestion = Doctrine_Core::getTable('Cuestion')->find($this->cuestion_id);
         
         //$this->widgetSchema['tipoRespuestaCorta_id-'.$this->cuestion_id] = new sfWidgetFormInputHidden();
-        $this->widgetSchema[$cuestion->getCuestionario_id().'-'.$this->cuestion_id] = new sfWidgetFormInput();
+        $this->widgetSchema[$cuestion->getCuestionario_id().'-'.$this->cuestion_id] = new sfWidgetFormInput(array('label' => $cuestion->getPregunta()));
         
         //$this->validatorSchema['tipoRespuestaCorta_id-'.$this->cuestion_id] = new sfValidatorNumber();
         $this->validatorSchema[$cuestion->getCuestionario_id().'-'.$this->cuestion_id] = new sfValidatorString(array('max_length' => 255));

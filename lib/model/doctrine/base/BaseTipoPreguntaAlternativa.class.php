@@ -9,17 +9,17 @@ Doctrine_Manager::getInstance()->bindComponent('TipoPreguntaAlternativa', 'doctr
  * 
  * @property integer $id
  * @property integer $cuestion_id
- * @property string $texto
  * @property Cuestion $Cuestion
+ * @property Doctrine_Collection $RespuestaTipoPreguntaAlternativa
  * 
- * @method integer                 getId()          Returns the current record's "id" value
- * @method integer                 getCuestionId()  Returns the current record's "cuestion_id" value
- * @method string                  getTexto()       Returns the current record's "texto" value
- * @method Cuestion                getCuestion()    Returns the current record's "Cuestion" value
- * @method TipoPreguntaAlternativa setId()          Sets the current record's "id" value
- * @method TipoPreguntaAlternativa setCuestionId()  Sets the current record's "cuestion_id" value
- * @method TipoPreguntaAlternativa setTexto()       Sets the current record's "texto" value
- * @method TipoPreguntaAlternativa setCuestion()    Sets the current record's "Cuestion" value
+ * @method integer                 getId()                               Returns the current record's "id" value
+ * @method integer                 getCuestionId()                       Returns the current record's "cuestion_id" value
+ * @method Cuestion                getCuestion()                         Returns the current record's "Cuestion" value
+ * @method Doctrine_Collection     getRespuestaTipoPreguntaAlternativa() Returns the current record's "RespuestaTipoPreguntaAlternativa" collection
+ * @method TipoPreguntaAlternativa setId()                               Sets the current record's "id" value
+ * @method TipoPreguntaAlternativa setCuestionId()                       Sets the current record's "cuestion_id" value
+ * @method TipoPreguntaAlternativa setCuestion()                         Sets the current record's "Cuestion" value
+ * @method TipoPreguntaAlternativa setRespuestaTipoPreguntaAlternativa() Sets the current record's "RespuestaTipoPreguntaAlternativa" collection
  * 
  * @package    themario
  * @subpackage model
@@ -48,15 +48,6 @@ abstract class BaseTipoPreguntaAlternativa extends sfDoctrineRecord
              'autoincrement' => false,
              'length' => 4,
              ));
-        $this->hasColumn('texto', 'string', 500, array(
-             'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
-             'length' => 500,
-             ));
     }
 
     public function setUp()
@@ -65,5 +56,9 @@ abstract class BaseTipoPreguntaAlternativa extends sfDoctrineRecord
         $this->hasOne('Cuestion', array(
              'local' => 'cuestion_id',
              'foreign' => 'id'));
+
+        $this->hasMany('RespuestaTipoPreguntaAlternativa', array(
+             'local' => 'id',
+             'foreign' => 'tipoPreguntaAlternativa_id'));
     }
 }

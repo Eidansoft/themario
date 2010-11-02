@@ -14,12 +14,10 @@ abstract class BaseTipoPreguntaAlternativaFormFilter extends BaseFormFilterDoctr
   {
     $this->setWidgets(array(
       'cuestion_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => true)),
-      'texto'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
       'cuestion_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Cuestion'), 'column' => 'id')),
-      'texto'       => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('tipo_pregunta_alternativa_filters[%s]');
@@ -41,7 +39,6 @@ abstract class BaseTipoPreguntaAlternativaFormFilter extends BaseFormFilterDoctr
     return array(
       'id'          => 'Number',
       'cuestion_id' => 'ForeignKey',
-      'texto'       => 'Text',
     );
   }
 }

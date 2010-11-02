@@ -204,13 +204,16 @@ tipoPreguntaCorta:
     Cuestion: cuestionCCC
 
 tipoPreguntaAlternativa:
-  respuestaAlternativa1: 
-    texto: Estática
-    Cuestion: cuestion2
-  respuestaAlternativa2: 
-    texto: Dinámica
+  respuestaTipoAlternativa1:
     Cuestion: cuestion2
 
+RespuestaTipoPreguntaAlternativa:
+  respuestaAlternativa1Para1:
+    TipoPreguntaAlternativa: respuestaTipoAlternativa1
+    texto: Estatica
+  respuestaAlternativa2Para1:
+    TipoPreguntaAlternativa: respuestaTipoAlternativa1
+    texto: Dinamica
 
 
 

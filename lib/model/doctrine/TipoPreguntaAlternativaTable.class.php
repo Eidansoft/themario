@@ -17,10 +17,16 @@ class TipoPreguntaAlternativaTable extends Doctrine_Table
         return Doctrine_Core::getTable('TipoPreguntaAlternativa');
     }
     
+    public function getTipoPreguntaAlternativaDeCuestionId($cuestion_id)
+    {
+        return Doctrine_Core::getTable('TipoPreguntaAlternativa')->createQuery('j')->where('cuestion_id = ?', $cuestion_id)->fetchOne();
+    }
+    
     public function getArrayRespuestasDeCuestion($cuestion_id)
     {
         $respuestas = array();
-        $tablaRespuestas = Doctrine_Core::getTable('TipoPreguntaAlternativa')->createQuery('j')->where('cuestion_id = ?', $cuestion_id)->execute();
+        $tipoAlternativa = Doctrine_Core::getTable('TipoPreguntaAlternativa')->createQuery('j')->where('cuestion_id = ?', $cuestion_id)->fetchOne();
+        $tablaRespuestas = Doctrine_Core::getTable('RespuestaTipoPreguntaAlternativa')->createQuery('j2')->where('tipopreguntaalternativa_id = ?', $tipoAlternativa->getId())->execute();
         foreach ($tablaRespuestas as $respuesta){
             $respuestas[$respuesta['id']] = $respuesta['texto'];
         }
