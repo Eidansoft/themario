@@ -16,4 +16,10 @@ class ContenidoTipoTextoTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('ContenidoTipoTexto');
     }
+
+    
+    public function getTextoDeContenido($contenido_id)
+    {
+        return Doctrine_Core::getTable('ContenidoTipoTexto')->createQuery('a')->where('contenido_id = ?', $contenido_id)->execute();
+    }
 }

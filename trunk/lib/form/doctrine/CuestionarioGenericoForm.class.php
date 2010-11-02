@@ -21,10 +21,11 @@ class CuestionarioGenericoForm extends BaseContenidoTipoCuestionarioForm
             $this['contenido_id']
         );
         
-        $this->widgetSchema['cuestionario_id'] = new sfWidgetFormInput(array(), array(
-				                                                                'value' => $this->cuestionario_id,
-				                                                                'readonly' => 'readonly'
-				                                                                ));
+        //$this->widgetSchema['cuestionario_id'] = new sfWidgetFormInput(array(), array(
+		//		                                                                'value' => $this->cuestionario_id,
+		//		                                                                'readonly' => 'readonly'
+		//		                                                                ));
+		$this->widgetSchema['cuestionario_id'] = new sfWidgetFormInputHidden();
         $this->validatorSchema['cuestionario_id'] = new sfValidatorNumber();
     }
 }

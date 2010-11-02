@@ -165,6 +165,34 @@ TipoPreguntaAlternativa:
       primary: false
       notnull: true
       autoincrement: false
+  relations:
+    Cuestion:
+      class: Cuestion
+      local: cuestion_id
+      foreign: id
+      type: one
+    RespuestaTipoPreguntaAlternativa:
+      class: RespuestaTipoPreguntaAlternativa
+      local: id
+      foreign: tipoPreguntaAlternativa_id
+      type: many
+RespuestaTipoPreguntaAlternativa:
+  connection: doctrine
+  tableName: respuestaTipoPreguntaAlternativa
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    tipoPreguntaAlternativa_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
     texto:
       type: string(500)
       fixed: false
@@ -173,9 +201,9 @@ TipoPreguntaAlternativa:
       notnull: true
       autoincrement: false
   relations:
-    Cuestion:
-      class: Cuestion
-      local: cuestion_id
+    TipoPreguntaAlternativa:
+      class: TipoPreguntaAlternativa
+      local: tipoPreguntaAlternativa_id
       foreign: id
       type: one
 TipoPreguntaCorta:
@@ -471,7 +499,7 @@ CuestionAlumnoRespuesta:
       fixed: false
       unsigned: false
       primary: false
-      notnull: false
+      notnull: true
       autoincrement: false
     alumno_id:
       type: integer(4)

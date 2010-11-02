@@ -21,13 +21,16 @@ class RespuestaAlternativaForm extends BaseRespuestaAlternativaForm
                 $this['tipoRespuestaAlternativa_id'],
                 $this['respuestaElegida_id']
             );
-    
+        
         //Obtengo el objeto cuestion
         $cuestion = Doctrine_Core::getTable('Cuestion')->find($this->cuestion_id);
         
+        //configuro los elementos
         $this->widgetSchema[$cuestion->getCuestionario_id().'-'.$this->cuestion_id] = new sfWidgetFormChoice(array('choices'  => Doctrine_Core::getTable('TipoPreguntaAlternativa')->getArrayRespuestasDeCuestion($this->cuestion_id),
-                                                                    'expanded' => true,
-        ));
+                                                                                                                   'expanded' => true,
+                                                                                                                   'label'    => $cuestion->getPregunta() ));
+        
+        //configuro validadores
         $this->validatorSchema[$cuestion->getCuestionario_id().'-'.$this->cuestion_id] = new sfValidatorNumber();
   }
   

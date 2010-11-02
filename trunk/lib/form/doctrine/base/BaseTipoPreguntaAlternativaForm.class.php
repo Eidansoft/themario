@@ -17,13 +17,11 @@ abstract class BaseTipoPreguntaAlternativaForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'          => new sfWidgetFormInputHidden(),
       'cuestion_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'), 'add_empty' => false)),
-      'texto'       => new sfWidgetFormTextarea(),
     ));
 
     $this->setValidators(array(
       'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'cuestion_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Cuestion'))),
-      'texto'       => new sfValidatorString(array('max_length' => 500)),
     ));
 
     $this->widgetSchema->setNameFormat('tipo_pregunta_alternativa[%s]');

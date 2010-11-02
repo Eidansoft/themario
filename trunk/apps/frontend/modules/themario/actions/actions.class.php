@@ -249,13 +249,13 @@ class themarioActions extends sfActions
                 $this->contenidos = $this->listaContenidos($contenido->getTema_id());
                 
                 //Titulo y comentario que se mostrara
-                $this->titulo = 'Guardado';
-                $this->comentario = 'Respuestas procesadas con exito. Gracias !';
+                $this->titulo = sfConfig::get('app_frontend_tituloExitoGuardaCuestionario');
+                $this->comentario = sfConfig::get('app_frontend_msgExitoGuardaCuestionario');
                 
                 $this->setTemplate('index');
             } else {
-                $this->titulo = 'ERROR';
-                $this->comentario ='Ha ocurrido un error al salvar la informacion';
+                $this->titulo = sfConfig::get('app_frontend_tituloErrorGuardaCuestionario');
+                $this->comentario = sfConfig::get('app_frontend_msgErrorGuardaCuestionario');
                 $this->setTemplate('index');
             }
         } else {

@@ -16,4 +16,9 @@ class TipoPreguntaCortaTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('TipoPreguntaCorta');
     }
+    
+    public function getTipoPreguntaCortaDeCuestionId($cuestion_id)
+    {
+        return Doctrine_Core::getTable('TipoPreguntaCorta')->createQuery('j')->where('cuestion_id = ?', $cuestion_id)->fetchOne();
+    }
 }

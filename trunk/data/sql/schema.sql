@@ -3,13 +3,15 @@ CREATE TABLE contenido (id INT AUTO_INCREMENT, titulo TEXT NOT NULL, tema_id INT
 CREATE TABLE contenidoTipoCuestionario (id INT AUTO_INCREMENT, contenido_id INT NOT NULL, INDEX contenido_id_idx (contenido_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE contenidoTipoTexto (id INT AUTO_INCREMENT, texto TEXT, contenido_id INT NOT NULL, INDEX contenido_id_idx (contenido_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE cuestion (id INT AUTO_INCREMENT, pregunta TEXT, cuestionario_id INT NOT NULL, INDEX cuestionario_id_idx (cuestionario_id), PRIMARY KEY(id)) ENGINE = INNODB;
-CREATE TABLE cuestionAlumnoRespuesta (id INT AUTO_INCREMENT, cuestion_id INT NOT NULL, respuesta_id INT, alumno_id INT NOT NULL, fecha DATETIME NOT NULL, INDEX respuesta_id_idx (respuesta_id), INDEX cuestion_id_idx (cuestion_id), INDEX alumno_id_idx (alumno_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE cuestionAlumnoRespuesta (id INT AUTO_INCREMENT, cuestion_id INT NOT NULL, respuesta_id INT NOT NULL, alumno_id INT NOT NULL, fecha DATETIME NOT NULL, INDEX respuesta_id_idx (respuesta_id), INDEX cuestion_id_idx (cuestion_id), INDEX alumno_id_idx (alumno_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE curso (id INT AUTO_INCREMENT, nombre TEXT NOT NULL, PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE respuesta (id INT AUTO_INCREMENT, PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE respuestaAlternativa (id INT AUTO_INCREMENT, tiporespuestaalternativa_id INT NOT NULL, respuestaelegida_id INT NOT NULL, INDEX tiporespuestaalternativa_id_idx (tiporespuestaalternativa_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE respuestaCorta (id INT AUTO_INCREMENT, tiporespuestacorta_id INT NOT NULL, texto TEXT, INDEX tiporespuestacorta_id_idx (tiporespuestacorta_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE respuestaTipoPreguntaAlternativa (id INT AUTO_INCREMENT, tipopreguntaalternativa_id INT NOT NULL, texto TEXT NOT NULL, INDEX tipopreguntaalternativa_id_idx (tipopreguntaalternativa_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE respuestasTipoPreguntaAlternativa (id INT AUTO_INCREMENT, tipopreguntaalternativa_id INT NOT NULL, texto TEXT NOT NULL, INDEX tipopreguntaalternativa_id_idx (tipopreguntaalternativa_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE tema (id INT AUTO_INCREMENT, nombre TEXT NOT NULL, curso_id INT NOT NULL, INDEX curso_id_idx (curso_id), PRIMARY KEY(id)) ENGINE = INNODB;
-CREATE TABLE tipoPreguntaAlternativa (id INT AUTO_INCREMENT, cuestion_id INT NOT NULL, texto TEXT NOT NULL, INDEX cuestion_id_idx (cuestion_id), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE tipoPreguntaAlternativa (id INT AUTO_INCREMENT, cuestion_id INT NOT NULL, INDEX cuestion_id_idx (cuestion_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE tipoPreguntaCorta (id INT AUTO_INCREMENT, cuestion_id INT NOT NULL, texto TEXT, INDEX cuestion_id_idx (cuestion_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE tipoRespuestaAlternativa (id INT AUTO_INCREMENT, respuesta_id INT NOT NULL, INDEX respuesta_id_idx (respuesta_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE tipoRespuestaCorta (id INT AUTO_INCREMENT, respuesta_id INT NOT NULL, INDEX respuesta_id_idx (respuesta_id), PRIMARY KEY(id)) ENGINE = INNODB;
@@ -22,6 +24,8 @@ ALTER TABLE cuestionAlumnoRespuesta ADD CONSTRAINT cuestionAlumnoRespuesta_cuest
 ALTER TABLE cuestionAlumnoRespuesta ADD CONSTRAINT cuestionAlumnoRespuesta_alumno_id_alumno_id FOREIGN KEY (alumno_id) REFERENCES alumno(id);
 ALTER TABLE respuestaAlternativa ADD CONSTRAINT rtti FOREIGN KEY (tiporespuestaalternativa_id) REFERENCES tipoRespuestaAlternativa(id);
 ALTER TABLE respuestaCorta ADD CONSTRAINT respuestaCorta_tiporespuestacorta_id_tipoRespuestaCorta_id FOREIGN KEY (tiporespuestacorta_id) REFERENCES tipoRespuestaCorta(id);
+ALTER TABLE respuestaTipoPreguntaAlternativa ADD CONSTRAINT rtti_1 FOREIGN KEY (tipopreguntaalternativa_id) REFERENCES tipoPreguntaAlternativa(id);
+ALTER TABLE respuestasTipoPreguntaAlternativa ADD CONSTRAINT rtti_2 FOREIGN KEY (tipopreguntaalternativa_id) REFERENCES tipoPreguntaAlternativa(id);
 ALTER TABLE tema ADD CONSTRAINT tema_curso_id_curso_id FOREIGN KEY (curso_id) REFERENCES curso(id);
 ALTER TABLE tipoPreguntaAlternativa ADD CONSTRAINT tipoPreguntaAlternativa_cuestion_id_cuestion_id FOREIGN KEY (cuestion_id) REFERENCES cuestion(id);
 ALTER TABLE tipoPreguntaCorta ADD CONSTRAINT tipoPreguntaCorta_cuestion_id_cuestion_id FOREIGN KEY (cuestion_id) REFERENCES cuestion(id);
