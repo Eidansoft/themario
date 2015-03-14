@@ -1,0 +1,3 @@
+A Web environment to manage contents and exercises from any theme. Teachers can edit and alumns can see contents and resolve questions or exams. I want to get Moodle syncronization.
+
+Un entorno Web para administrar contenidos y ejercicios de diferentes temáticas. Los profesores podrán editar y crear, mientras que los alumnos verán los contenidos y realizarán ejercicios y exámenes. La gestión de usuarios será compatible con Moodle
